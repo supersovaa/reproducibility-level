@@ -16,7 +16,7 @@ Use the repository or task's authoritative requirements and design to establish 
 - **Equivalence:** what counts as a match for that target, such as exact state equality, byte identity, an agreed numeric tolerance, or a defined statistical criterion.
 - **Level:** the selected level (`1`, `2`, or `3`) governing this target.
 
-Agree on material missing choices through the workflow responsible for requirements and design. Record the agreed contract in the appropriate source of truth. Different targets may use different criteria and levels.
+Agree on material missing choices through the workflow responsible for requirements and design. When a named reproduction guarantee is paired with level `0`, resolve that mismatch in the owning requirements/design workflow before applying the guarantee. Record the agreed contract in the appropriate source of truth. Different targets may use different criteria and levels.
 
 ## Levels
 
