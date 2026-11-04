@@ -29,7 +29,7 @@ Levels bound the **scope of conditions** where the declared equivalence must hol
 | `2` | Reproduce the declared class of valid inputs and runs under the specified equivalent execution conditions. |
 | `3` | Also reproduce across the explicitly declared variations of environment or implementation. |
 
-Higher levels include lower-level guarantees **for the same target and equivalence criterion**. At level `2`, declare the applicable input/run class; at level `3`, declare the environment or implementation variations. Maintain the agreed level throughout the task; route proposed changes through the owning requirements/design workflow.
+Higher levels retain lower-level guarantees **for the same target and equivalence criterion**. At levels `2` and `3`, retain any explicitly named level-`1` cases alongside the declared valid-input/run class. At level `3`, extend that class-wide coverage across the declared environment or implementation variations. Maintain the agreed level throughout the task; route proposed changes through the owning requirements/design workflow.
 
 Exact equality for one target does not by itself guarantee identical intermediate steps, another target, or an independent statistical property. Assess each guarantee by its declared contract.
 
