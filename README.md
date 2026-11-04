@@ -6,7 +6,7 @@ Use `reproducibility-level` when establishing reproducibility requirements, or a
 
 ## Contract
 
-For each required guarantee, declare:
+For each required reproducibility guarantee at level `1` or higher, declare:
 
 - **Target:** what is reproduced (for example, a game state, execution trace, build artifact, or statistical property).
 - **Conditions:** the inputs and execution conditions under which it is reproduced.
@@ -20,7 +20,7 @@ For each required guarantee, declare:
 | `2` | Declared class of valid inputs and runs under equivalent conditions |
 | `3` | Also includes declared variations in environment or implementation |
 
-Higher levels include lower ones for the same target and equivalence criterion. An exact result match, exact execution trace, numerical tolerance, and statistical acceptance represent different contracts rather than a universal ladder of strictness.
+Higher levels retain lower-level guarantees for the same target and equivalence criterion: levels `2` and `3` preserve explicitly named level-`1` cases in addition to their broader scope. An exact result match, exact execution trace, numerical tolerance, and statistical acceptance represent different contracts rather than a universal ladder of strictness.
 
 ### Example
 
