@@ -9,12 +9,12 @@ Use this skill when establishing reproducibility requirements or applying settle
 
 ## Declare the required guarantee
 
-Use the repository or task's authoritative requirements and design to establish the level. For each required reproduction guarantee at level `1` or higher, record:
+Use the repository or task's authoritative requirements and design to establish the level (`0`–`3`). At level `0`, apply the existing behavior contract. For each required reproduction guarantee at level `1` or higher, record:
 
 - **Target:** the output, final state, execution trace, generated artifact, statistical property, or other observable property being reproduced.
 - **Conditions:** the relevant inputs, initial state, random state, versions, environment, and permitted variations.
 - **Equivalence:** what counts as a match for that target, such as exact state equality, byte identity, an agreed numeric tolerance, or a defined statistical criterion.
-- **Level:** `0`, `1`, `2`, or `3`.
+- **Level:** the selected level (`1`, `2`, or `3`) governing this target.
 
 Agree on material missing choices through the workflow responsible for requirements and design. Record the agreed contract in the appropriate source of truth. Different targets may use different criteria and levels.
 
