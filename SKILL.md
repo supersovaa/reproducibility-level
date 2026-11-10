@@ -5,49 +5,74 @@ description: Establish or apply agreed reproducibility requirements during syste
 
 # Reproducibility Level
 
-Use this skill when establishing reproducibility requirements or applying settled reproducibility guarantees during design, implementation, testing, and review.
+Use this skill in a single-user, AI-agent workflow when establishing reproducibility requirements or applying settled guarantees during design, implementation, testing, and review.
 
-## Declare the required guarantee
+## Declare the contract per target
 
-Use the repository or task's authoritative requirements and design to establish the level (`0`–`3`). At level `0`, apply the existing behavior contract. For each required reproduction guarantee at level `1` or higher, record:
+Use the task or repository's authoritative requirements and design. For each relevant reproduction target, identify:
 
-- **Target:** the output, final state, execution trace, generated artifact, statistical property, or other observable property being reproduced.
-- **Conditions:** the relevant inputs, initial state, random state, versions, environment, and permitted variations.
-- **Equivalence:** what counts as a match for that target, such as exact state equality, byte identity, an agreed numeric tolerance, or a defined statistical criterion.
-- **Level:** the selected level (`1`, `2`, or `3`) governing this target.
+- **Target:** the observable output, result, state, recorded data, numerical value, or statistical property under consideration.
+- **Conditions:** the inputs, initial state, recorded decisions, random state or seeds, code/data versions, environment, and variations that the owning contract requires.
+- **Equivalence:** the result, value, sequence, tolerance, or statistical acceptance criterion agreed for that target.
+- **Axis and level:** select only the logical, numerical/data, and statistical axes relevant to this target, with their applicable level. A deliberately selected level `0` means no additional reproducibility requirement for that target and axis; it preserves existing behavior requirements.
 
-Agree on material missing choices through the workflow responsible for requirements and design. When a named reproduction guarantee is paired with level `0`, resolve that mismatch in the owning requirements/design workflow before applying the guarantee. Record the agreed contract in the appropriate source of truth. Different targets may use different criteria and levels.
+Record the agreed selection in the owning requirements/design. Different targets can have different axes, levels, conditions, and equivalence criteria. A higher number flags greater risk of overconstraining legitimate behavior; it does not generally imply mathematical containment or increasing precision. Apply a guarantee only within the agreed contract. Route material proposals for new or changed guarantees to the workflow that owns requirements and design.
 
-## Levels
+## Logical reproducibility
 
-Levels bound the **scope of conditions** where the declared equivalence must hold. The equivalence criterion is a separate part of the contract.
-
-| Level | Required guarantee |
+| Level | Interpretation |
 | --- | --- |
-| `0` | Apply existing behavior requirements; add no reproducibility guarantee. |
-| `1` | Reproduce explicitly named cases under their specified conditions. |
-| `2` | Reproduce the declared class of valid inputs and runs under the specified equivalent execution conditions. |
-| `3` | Also reproduce across the explicitly declared variations of environment or implementation. |
+| `0` | No additional logical reproduction guarantee. |
+| `1` | **Input/output agreement:** under the same contracted input sequence and execution conditions, reproduce the output sequence or final result specified by the owning contract. |
+| `2` | **Internal execution-path agreement:** retain level-`1` input/output agreement and additionally reproduce the internal processing path explicitly identified by the owning contract, using its agreed equivalence criterion. |
 
-Higher levels retain lower-level guarantees **for the same target and equivalence criterion**. At levels `2` and `3`, retain any explicitly named level-`1` cases alongside the declared valid-input/run class. At level `3`, extend that class-wide coverage across the declared environment or implementation variations. Maintain the agreed level throughout the task; route proposed changes through the owning requirements/design workflow.
+The owning contract identifies which outputs must agree. Semantically observable state transitions or recorded events can be outputs when explicitly part of that contract; agreement of the internal algorithm or instruction path is a distinct level-`2` requirement. For level `2`, require an agreed path target and comparison rule rather than imposing universal instruction order, scheduling, search paths, or execution traces. Preserve implementation and parallelization freedom at level `1`.
 
-Exact equality for one target does not by itself guarantee identical intermediate steps, another target, or an independent statistical property. Assess each guarantee by its declared contract.
+## Numerical and data reproducibility
 
-## Separate reproducibility from performance
+| Level | Interpretation | Role |
+| --- | --- | --- |
+| `0` | No additional numerical/data reproducibility requirement. | Selection |
+| `1` | **Order-of-magnitude assessment:** assess similarity of scale or magnitude. | Assessment |
+| `2` | **Approximate assessment:** assess broad agreement at an agreed rounding precision or comparable approximate criterion. | Assessment |
+| `3` | **Discrete agreement:** guarantee equality of values originally specified as discrete, such as integers, identifiers, or contractual byte sequences. | Guarantee |
+| `4` | **Toleranced agreement:** guarantee numerical agreement within expressly agreed absolute, relative, or other tolerances. | Guarantee |
+| `5` | **Full numerical representation identity:** a prohibited requirement boundary for bit-identical internal numerical representations such as floating-point computation results. | Do not require |
 
-Elapsed calculation time, CPU time, latency, throughput, and resource consumption belong to performance requirements and execution constraints. Assess them with separately specified measurement conditions and acceptance criteria.
+Levels `3` and `4` are parallel contracts, not a strictness ladder. Level `4` is numbered later to highlight the risk of selecting an unjustifiably small tolerance. Set tolerances from the required precision, value scale, numerical behavior, and owning specification; level `4` alone specifies no universal epsilon.
 
-Evaluate reproducibility using its declared target, conditions, equivalence, and level. Differences in incidental measured execution durations alone do not establish a reproducibility failure or justify stopping work.
+Distinguish assessment from a required guarantee: rounding an originally continuous value for comparison is level `2`, whereas a promised bound is level `4`. Contractual discrete values, including byte sequences defined as published data values, may require level `3` equality. Do not reinterpret a numerical implementation's internal floating-point bits as contractual discrete data to bypass the level-`5` boundary.
 
-Apply deadlines, timeouts, and execution budgets as stop criteria when the governing operational, performance, or test-execution contract explicitly establishes them. When timing is itself an explicitly required observable behavior, have requirements/design establish the relevant acceptance criterion and measurement protocol.
+## Statistical reproducibility
 
-## Apply to work
+| Level | Interpretation |
+| --- | --- |
+| `0` | No additional statistical reproducibility requirement. |
+| `1` | Assess the similarity of agreed statistics or statistical trends. |
+| `2` | Guarantee statistical equivalence under pre-agreed sample composition/count, tolerances, and acceptance criteria. |
 
-- **Design:** express the agreed contract in the authoritative requirements or design.
-- **Implementation:** preserve the guarantee within its defined conditions using mechanisms appropriate to the contract.
-- **Testing:** use the governing test-evidence workflow to establish sufficient executable evidence for the guarantee.
-- **Review:** identify gaps against the agreed contract and cite the target, conditions, criterion, level, and supporting evidence.
+Name the statistics of interest (for example mean, rate, dispersion, quantile, or distribution) separately from the level. For level `2`, let the owning requirements/design and test-evidence planning define the sample size, sampling/seed conditions, tolerances, decision procedure, and any needed confidence or power. Treat finite-sample variation according to that contract. The level `2` designation alone does not require a large random experiment in ordinary CI. Fixed sample data and deterministic aggregation tests can provide evidence when they fit the agreed test objective.
 
-`defense-level` owns defensive scope against invalid interactions and environment failures. Test-evidence skills own test planning and implementation. Performance requirements and execution budgets own their respective limits.
+## Apply the owning execution conditions
 
-This skill owns the definition and interpretation of required reproducibility guarantees.
+Randomness is a condition shared by the three axes, rather than a fourth axis. Distinguish a random stream, outcomes of a random process, and statistics over trials as separate targets where needed.
+
+- Follow the consuming system's normal execution contract for explicit seeds, omitted seeds, generated seeds, and defaults. Reproducibility alone does not change normal runs to a fixed default seed.
+- For comparison or replay, apply the seeds, inputs, recorded choices, versions, and other conditions required by that target's existing reproduction contract. A selected seed `s` may be supplied to both runs when the contract calls for comparison at that value; do not infer that normal runs must use the same fixed `s`.
+- A matching seed may guarantee initial state or derived random allocations only. Match the actual contract before requiring the same later decisions, execution path, or final outcome; random-number consumption, parallelism, external decisions, and recorded inputs can affect that scope.
+- Use the existing contract to determine legitimate omissions, defaults, record versions, and the range of comparable results. When comparisons cover a limited range, state that range and its basis; route a proposed additional guarantee to the owning design workflow. Do not introduce skill-specific fallback execution paths or preconditions.
+
+## Separate reproducibility from performance and test selection
+
+Elapsed time, CPU time, latency, throughput, and resource consumption belong to the owning performance requirements and execution budgets. Incidental timing differences alone do not establish reproducibility failure or justify stopping work. Apply a timing acceptance rule only when its own operational or performance contract defines it.
+
+- **Design:** record each target's contracted conditions, equivalence, selected axes and levels in its authoritative source.
+- **Implementation:** preserve the agreed guarantees within their defined scope.
+- **Testing:** use the existing test-evidence workflow to select sufficient evidence, workload, CI placement, and budget for the contracted guarantee.
+- **Review:** compare the implementation and evidence with the declared target, conditions, equivalence, and level, identifying concrete contract gaps rather than imposing broader guarantees.
+
+This skill owns interpretation of reproducibility guarantees. `defense-level` owns defensive scope, test-evidence skills own testing choices, and performance/operational contracts own their limits.
+
+## Migrate existing level settings
+
+The former single `0`–`3` level system measured the breadth of cases, valid inputs, and environment variations. Re-evaluate each existing target from its authoritative conditions and equivalence criterion, then select the relevant axes and levels in this skill. Preserve existing guarantees during this review. Do not automatically map old numbers to new numbers.
