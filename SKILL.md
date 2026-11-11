@@ -50,7 +50,7 @@ Distinguish assessment from a required guarantee: rounding an originally continu
 | `1` | Assess the similarity of agreed statistics or statistical trends. |
 | `2` | Guarantee statistical equivalence under pre-agreed sample composition/count, tolerances, and acceptance criteria. |
 
-Name the statistics of interest (for example mean, rate, dispersion, quantile, or distribution) separately from the level. For level `2`, let the owning requirements/design and test-evidence planning define the sample size, sampling/seed conditions, tolerances, decision procedure, and any needed confidence or power. Treat finite-sample variation according to that contract. The level `2` designation alone does not require a large random experiment in ordinary CI. Fixed sample data and deterministic aggregation tests can provide evidence when they fit the agreed test objective.
+For statistical levels `1` and `2`, name the statistics of interest (for example mean, rate, dispersion, quantile, or distribution) separately from the level. Level `0` preserves existing statistical behavior without introducing a new evaluation target. For level `2`, let the owning requirements/design and test-evidence planning define the sample size, sampling/seed conditions, tolerances, decision procedure, and any needed confidence or power. Treat finite-sample variation according to that contract. The level `2` designation alone does not require a large random experiment in ordinary CI. Fixed sample data and deterministic aggregation tests can provide evidence when they fit the agreed test objective.
 
 ## Apply the owning execution conditions
 
@@ -68,10 +68,10 @@ Elapsed time, CPU time, latency, throughput, and resource consumption belong to 
 - **Design:** maintain substantive reproduction guarantees, conditions, and equivalence in the owning requirements/design; record agreed axes and levels in the consuming repository's chosen authoritative location, with references to those contracts.
 - **Implementation:** preserve the agreed guarantees within their defined scope.
 - **Testing:** use the existing test-evidence workflow to select sufficient evidence, workload, CI placement, and budget for the contracted guarantee.
-- **Review:** compare the implementation and evidence with the declared target, conditions, equivalence, and level, identifying concrete contract gaps rather than imposing broader guarantees.
+- **Review:** compare behavior with the existing contract and, when an assessment or guarantee applies, compare the evidence with its agreed target, conditions, equivalence, and level. Identify concrete contract gaps rather than imposing broader guarantees.
 
 This skill owns interpretation of reproducibility guarantees. `defense-level` owns defensive scope, test-evidence skills own testing choices, and performance/operational contracts own their limits.
 
 ## Migrate existing level settings
 
-The former single `0`–`3` level system measured the breadth of cases, valid inputs, and environment variations. Re-evaluate each existing target from its authoritative conditions and equivalence criterion, then select the relevant axes and levels in this skill. Preserve existing guarantees during this review. Do not automatically map old numbers to new numbers.
+The former single `0`–`3` level system measured the breadth of cases, valid inputs, and environment variations. Re-evaluate each existing target using its authoritative behavior and reproduction contract, including conditions and equivalence criteria where applicable, then select the relevant axes and levels in this skill. Preserve existing guarantees during this review. Do not automatically map old numbers to new numbers.
