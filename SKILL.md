@@ -9,14 +9,13 @@ Use this skill in a single-user, AI-agent workflow when establishing reproducibi
 
 ## Declare the contract per target
 
-Use the task or repository's authoritative requirements and design. For each relevant reproduction target, identify:
+Use the task or repository's authoritative requirements and design for existing behavior and reproduction contracts. For each relevant reproduction target, identify:
 
-- **Target:** the observable output, result, state, recorded data, numerical value, or statistical property under consideration.
-- **Conditions:** the inputs, initial state, recorded decisions, random state or seeds, code/data versions, environment, and variations that the owning contract requires.
-- **Equivalence:** the result, value, sequence, tolerance, or statistical acceptance criterion agreed for that target.
+- **Target:** the output, result, state, recorded data, numerical value, or statistical property under consideration.
 - **Axis and level:** select only the logical, numerical/data, and statistical axes relevant to this target, with their applicable level. A deliberately selected level `0` means no additional reproducibility requirement for that target and axis; it preserves existing behavior requirements.
+- **Conditions and equivalence, when applicable:** for an axis with a required assessment or guarantee, use the owning contract's inputs, initial state, recorded decisions, random state or seeds, code/data versions, permitted environmental variations, and agreed matching or assessment criterion. At level `0`, preserve any existing conditions and behavior criteria without requiring a new reproducibility equivalence criterion.
 
-Record the agreed selection in the owning requirements/design. Different targets can have different axes, levels, conditions, and equivalence criteria. A higher number flags greater risk of overconstraining legitimate behavior; it does not generally imply mathematical containment or increasing precision. Apply a guarantee only within the agreed contract. Route material proposals for new or changed guarantees to the workflow that owns requirements and design.
+Record agreed axis/level selections in the consuming repository's chosen authoritative location, such as a local task `SKILL.md`; reference the owning requirements/design for the substantive target guarantee, conditions, and equivalence. Different targets can have different axes, levels, conditions, and equivalence criteria. A higher number flags greater risk of overconstraining legitimate behavior; it does not generally imply mathematical containment or increasing precision. Apply a guarantee only within the agreed contract. Route material proposals for new or changed guarantees to the workflow that owns requirements and design.
 
 ## Logical reproducibility
 
@@ -66,7 +65,7 @@ Randomness is a condition shared by the three axes, rather than a fourth axis. D
 
 Elapsed time, CPU time, latency, throughput, and resource consumption belong to the owning performance requirements and execution budgets. Incidental timing differences alone do not establish reproducibility failure or justify stopping work. Apply a timing acceptance rule only when its own operational or performance contract defines it.
 
-- **Design:** record each target's contracted conditions, equivalence, selected axes and levels in its authoritative source.
+- **Design:** maintain substantive reproduction guarantees, conditions, and equivalence in the owning requirements/design; record agreed axes and levels in the consuming repository's chosen authoritative location, with references to those contracts.
 - **Implementation:** preserve the agreed guarantees within their defined scope.
 - **Testing:** use the existing test-evidence workflow to select sufficient evidence, workload, CI placement, and budget for the contracted guarantee.
 - **Review:** compare the implementation and evidence with the declared target, conditions, equivalence, and level, identifying concrete contract gaps rather than imposing broader guarantees.
