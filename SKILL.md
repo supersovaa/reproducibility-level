@@ -1,11 +1,11 @@
 ---
 name: reproducibility-level
-description: Establish or apply agreed reproducibility requirements during system design, implementation, testing, and review.
+description: Establish or apply reproducibility guarantees for a specific target during design, implementation, testing, or review.
 ---
 
 # Reproducibility Level
 
-Use this skill in a single-user, AI-agent workflow when establishing reproducibility requirements or applying settled guarantees during design, implementation, testing, and review.
+In a single-user AI-agent workflow, use this contract when establishing reproducibility requirements or applying agreed guarantees during design, implementation, testing, or review.
 
 ## Declare the contract per target
 
